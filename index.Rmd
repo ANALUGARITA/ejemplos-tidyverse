@@ -122,4 +122,44 @@ covid_filtrado_ordenado_x_positivos_nuevos
 
 
 ```
+### Summarise()
 
+```{r ejemplo sumarize-01}
+# Selección, renombramiento, filtrado y conversión de columnas por mes y anio
+covid_positivos_nuevos_sumarizado_x_aniomes <-
+  covid %>%
+  select(FECHA, nue_posi) %>%
+  rename(fecha = FECHA, positivos_nuevos = nue_posi) %>%
+  mutate(fecha = as.Date(fecha, format = "%d/%m/%Y")) %>%
+  group_by(anio = format(fecha,"%Y"), mes = format(fecha,"%m")) %>%
+  summarise(suma_positivos = sum(positivos_nuevos))
+
+# Despliegue del data frame con los resultados
+covid_positivos_nuevos_sumarizado_x_aniomes
+```
+```{r ejemplo sumarize-02}
+# Selección, renombramiento, filtrado y conversión de columnas solo por mes
+covid_positivos_nuevos_sumarizado_x_mes <-
+  covid %>%
+  select(FECHA, nue_posi) %>%
+  rename(fecha = FECHA, positivos_nuevos = nue_posi) %>%
+  mutate(fecha = as.Date(fecha, format = "%d/%m/%Y")) %>%
+  group_by(mes = format(fecha,"%m")) %>%
+  summarise(suma_positivos = sum(positivos_nuevos))
+
+# Despliegue del data frame con los resultados
+covid_positivos_nuevos_sumarizado_x_mes
+```
+```{r ejemplo sumarize-03}
+# Selección, renombramiento, filtrado y conversión de columnas solo por mes en promedio
+covid_positivos_nuevos_sumarizado_x_prommes <-
+  covid %>%
+  select(FECHA, nue_posi) %>%
+  rename(fecha = FECHA, positivos_nuevos = nue_posi) %>%
+  mutate(fecha = as.Date(fecha, format = "%d/%m/%Y")) %>%
+  group_by(mes = format(fecha,"%m")) %>%
+  summarise(suma_positivos = mean(positivos_nuevos))
+
+# Despliegue del data frame con los resultados
+covid_positivos_nuevos_sumarizado_x_prommes
+```
